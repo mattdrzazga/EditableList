@@ -4,10 +4,11 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
 
 @Singleton
 @Module
 public interface AppModule {
-    Context bindContext(App app);
+    @Binds Context bindContext(App app);
 }

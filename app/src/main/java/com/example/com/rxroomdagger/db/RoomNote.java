@@ -6,6 +6,6 @@ import android.support.annotation.NonNull;
 
 @Entity(tableName = "notes")
 public class RoomNote {
-    @PrimaryKey long id;
-    @NonNull String note;
+    @PrimaryKey(autoGenerate = true) public long id;
+    @NonNull public String note;
 }

@@ -1,0 +1,6 @@
+Since Android Studio 3.0,
+you can use predefine data offered
+by Android Studio or create a specific folder
+of “Sample data” where you will put
+fake data to be displayed directly in your
+layout, right directly in the layout editor.

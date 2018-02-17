@@ -14,7 +14,9 @@ public abstract class DatabaseModule {
     @Provides
     @Singleton
     static AppDatabase provideDatabase(Context context) {
-        return Room.databaseBuilder(context, AppDatabase.class, "note-db").build();
+        return Room.databaseBuilder(context, AppDatabase.class, "note-db")
+                .fallbackToDestructiveMigration()
+                .build();
     }
 
     @Provides
