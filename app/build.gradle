@@ -86,4 +86,7 @@ dependencies {
     // Butterknife
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    implementation "com.bignerdranch.android:simple-item-decoration:$itemDecorationVersion"
+
 }

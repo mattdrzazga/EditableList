@@ -4,8 +4,10 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 
+import com.dgreenhalgh.android.simpleitemdecoration.linear.DividerItemDecoration;
 import com.example.com.rxroomdagger.R;
 import com.example.com.rxroomdagger.ui.notes.model.Note;
 
@@ -35,6 +37,7 @@ public class MainActivity extends DaggerAppCompatActivity implements NotesAdapte
         ButterKnife.bind(this);
         notesAdapter.setCallback(this);
         questions.setAdapter(notesAdapter);
+        questions.addItemDecoration(new DividerItemDecoration(ContextCompat.getDrawable(this, R.drawable.divider)));
 
         viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
         initVMObservers();
