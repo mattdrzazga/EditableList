@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.example.com.rxroomdagger.R;
 import com.example.com.rxroomdagger.ui.notes.model.Note;
@@ -18,7 +17,7 @@ import butterknife.OnClick;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity implements NotesAdapter.NotesCallback {
-    private static final String TAG = "TQAG";
+    private static final String TAG = "TAG";
     @BindView(R.id.questions)
     RecyclerView questions;
 
@@ -29,8 +28,6 @@ public class MainActivity extends DaggerAppCompatActivity implements NotesAdapte
 
     MainViewModel viewModel;
 
-    @Inject
-    NotesRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,32 +39,24 @@ public class MainActivity extends DaggerAppCompatActivity implements NotesAdapte
 
         viewModel = ViewModelProviders.of(this, factory).get(MainViewModel.class);
         initVMObservers();
-//        initReactiveObservers();
-    }
-
-    private void initReactiveObservers() {
-        repository.getNotesFlowable().subscribe(notes -> {
-            Log.d(TAG, "onCreate: " + notes.size());
-            notesAdapter.setNotes(notes);
-        });
     }
 
     private void initVMObservers() {
-        viewModel.getNotes().observe(this, notes -> {
-            Log.d(TAG, "initVMObservers: " + notes.size());
-            notesAdapter.setNotes(notes);
-        });
+        viewModel.getNotes().observe(this, notesAdapter::setNotes);
     }
-
 
     @OnClick(R.id.floatingActionButton)
     public void addNote() {
-        repository.addNote().subscribe();
+        viewModel.newNote();
     }
 
     @Override
     public void onDelete(int position, @NonNull Note note) {
-        repository.deleteNote(note)
-                .subscribe(() -> notesAdapter.removeAt(position), throwable -> {});
+        viewModel.deleteNote(note);
+    }
+
+    @Override
+    public void onAfterTextChange(int position, @NonNull Note note, @NonNull String text) {
+        viewModel.updateNote(note, text);
     }
 }

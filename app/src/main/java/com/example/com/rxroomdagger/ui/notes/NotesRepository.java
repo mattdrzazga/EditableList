@@ -1,10 +1,13 @@
 package com.example.com.rxroomdagger.ui.notes;
 
 import android.arch.lifecycle.LiveData;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.example.com.rxroomdagger.db.NoteDao;
 import com.example.com.rxroomdagger.db.RoomNote;
 import com.example.com.rxroomdagger.ui.notes.model.Note;
+import com.example.com.rxroomdagger.utils.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +15,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.example.com.rxroomdagger.utils.ObjectUtils.requireNonNull;
 
 public class NotesRepository implements NotesDataSource {
     private final NoteDao dao;
@@ -22,20 +26,6 @@ public class NotesRepository implements NotesDataSource {
     @Inject
     public NotesRepository(NoteDao dao) {
         this.dao = dao;
-    }
-
-    @Override
-    public Flowable<List<Note>> getNotesFlowable() {
-        return dao.getAllFlowable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .map(roomNotes -> {
-                    List<Note> notes = new ArrayList<>(roomNotes.size());
-                    for (RoomNote note : roomNotes) {
-                        notes.add(new Note(note.id, note.note));
-                    }
-                    return notes;
-                });
     }
 
     @Override
@@ -50,8 +40,9 @@ public class NotesRepository implements NotesDataSource {
     }
 
     @Override
-    public void updateNote(Note note) {
-
+    public Completable updateNote(Note note) {
+        return Completable.fromAction(() -> dao.update(convert(note)))
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -63,10 +54,18 @@ public class NotesRepository implements NotesDataSource {
         return new Note(note.id, note.note);
     }
 
+    public static List<Note> convert(@NonNull List<RoomNote> notes) {
+        List<Note> converted = new ArrayList<>(requireNonNull(notes).size());
+        for (RoomNote note : notes) {
+            converted.add(convert(note));
+        }
+        return converted;
+    }
+
     public static RoomNote convert(Note note) {
         final RoomNote roomNote = new RoomNote();
         roomNote.id = note.id;
-        roomNote.note = note.note;
+        roomNote.note = note.getNote();
         return roomNote;
     }
 }

@@ -55,6 +55,8 @@ ext {
     rxKotlinVersion = '2.2.0'
     // https://github.com/ReactiveX/RxAndroid/releases
     rxAndroidVersion  = '2.0.1'
+    // https://github.com/JakeWharton/RxBinding
+    rxBindingVersion = '2.1.1'
 
     // Development tools
 
@@ -115,5 +117,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     implementation "com.jakewharton:butterknife:$butterknifeVersion"
+    compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBindingVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 }

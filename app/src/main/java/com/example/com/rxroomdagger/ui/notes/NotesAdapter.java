@@ -3,22 +3,34 @@ package com.example.com.rxroomdagger.ui.notes;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.com.rxroomdagger.R;
 import com.example.com.rxroomdagger.ui.notes.model.Note;
 import com.example.com.rxroomdagger.utils.ObjectUtils;
+import com.jakewharton.rxbinding2.InitialValueObservable;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.Binds;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 
 import static com.example.com.rxroomdagger.utils.ObjectUtils.requireNonNull;
 
@@ -42,7 +54,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Note note = notes.get(position);
-        holder.input.setText(note.note);
+        holder.input.clearFocus();
+        holder.input.setText(note.getNote());
     }
 
     @Override
@@ -75,6 +88,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
                     callback.onDelete(position, notes.get(position));
                 }
             });
+
+            RxTextView.afterTextChangeEvents(input)
+                    .filter(textViewAfterTextChangeEvent -> getAdapterPosition() != RecyclerView.NO_POSITION)
+                    .filter(event -> input.hasFocus())
+                    .debounce(800, TimeUnit.MILLISECONDS)
+                    .doOnNext(textViewAfterTextChangeEvent -> {
+                        Log.d("TAG", "accept at: " +getAdapterPosition() + " " + textViewAfterTextChangeEvent.editable().toString());
+                        final Note note = notes.get(getAdapterPosition());
+                        note.setNote(textViewAfterTextChangeEvent.editable().toString());
+                        callback.onAfterTextChange(getAdapterPosition(), note, note.getNote());
+                    }).subscribe();
         }
     }
 
@@ -106,11 +130,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.ViewHolder> 
         public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
             Note a = oldData.get(oldItemPosition);
             Note b = newData.get(newItemPosition);
-            return a.id == b.id && a.note.equals(b.note);
+            return a.id == b.id && a.getNote().equals(b.getNote());
         }
     }
 
     public interface NotesCallback {
         void onDelete(int position, @NonNull Note note);
+        void onAfterTextChange(int position, @NonNull Note note, @NonNull String text);
     }
 }

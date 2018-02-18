@@ -11,9 +11,7 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 public interface NotesDataSource {
-    Flowable<List<Note>> getNotesFlowable();
     LiveData<List<RoomNote>> getNotes();
-
-    void updateNote(Note note);
+    Completable updateNote(Note note);
     Completable deleteNote(Note note);
 }
