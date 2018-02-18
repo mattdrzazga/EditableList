@@ -8,9 +8,11 @@ import com.example.com.rxroomdagger.ui.notes.model.Note;
 import java.util.List;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 
 public interface NotesDataSource {
     LiveData<List<RoomNote>> getNotes();
     Completable updateNote(Note note);
     Completable deleteNote(Note note);
+    Single<Integer> deleteEmptyNotes();
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -65,5 +66,10 @@ public class NotesRepository implements NotesDataSource {
         roomNote.id = note.id;
         roomNote.note = note.getNote();
         return roomNote;
+    }
+
+ §    @Override
+    public Single<Integer> deleteEmptyNotes() {
+        return Single.fromCallable(dao::deleteEmptyNotes).subscribeOn(Schedulers.io());
     }
 }

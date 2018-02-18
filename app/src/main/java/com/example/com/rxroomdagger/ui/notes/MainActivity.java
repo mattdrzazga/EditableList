@@ -58,4 +58,10 @@ public class MainActivity extends DaggerAppCompatActivity implements NotesAdapte
     public void onAfterTextChange(int position, @NonNull Note note, @NonNull String text) {
         viewModel.updateNote(note, text);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        viewModel.deleteEmptyNotes();
+    }
 }

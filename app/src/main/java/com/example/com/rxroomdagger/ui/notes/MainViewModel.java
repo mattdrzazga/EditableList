@@ -42,4 +42,8 @@ public class MainViewModel extends ViewModel {
             repository.updateNote(new Note(note.id, text)).subscribe();
         }
     }
+
+    public void deleteEmptyNotes() {
+        repository.deleteEmptyNotes().subscribe();
+    }
 }
