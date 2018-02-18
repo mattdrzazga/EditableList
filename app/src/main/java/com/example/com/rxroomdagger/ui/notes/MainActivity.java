@@ -17,7 +17,6 @@ import butterknife.OnClick;
 import dagger.android.support.DaggerAppCompatActivity;
 
 public class MainActivity extends DaggerAppCompatActivity implements NotesAdapter.NotesCallback {
-    private static final String TAG = "TAG";
     @BindView(R.id.questions)
     RecyclerView questions;
 
