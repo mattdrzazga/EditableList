@@ -68,7 +68,7 @@ public class NotesRepository implements NotesDataSource {
         return roomNote;
     }
 
- §    @Override
+    @Override
     public Single<Integer> deleteEmptyNotes() {
         return Single.fromCallable(dao::deleteEmptyNotes).subscribeOn(Schedulers.io());
     }
