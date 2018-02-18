@@ -42,8 +42,6 @@ ext {
     // https://github.com/bignerdranch/simple-item-decoration/releases
     itemDecorationVersion = '1.0.0'
     // https://github.com/square/retrofit/blob/master/CHANGELOG.md
-    retrofitVersion = '2.2.0'
-    // https://developer.android.com/topic/libraries/support-library/revisions.html
     supportLibraryVersion = '27.0.2'
     // https://github.com/ReactiveX/RxJava/releases
     rxJavaVersion = '2.1.8'
