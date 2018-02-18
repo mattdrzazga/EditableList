@@ -29,4 +29,7 @@ public interface NoteDao {
 
     @Query("SELECT * FROM notes")
     LiveData<List<RoomNote>> getAll();
+
+    @Query("DELETE FROM notes where note = \"\"")
+    int deleteEmptyNotes();
 }
