@@ -2,12 +2,10 @@ package com.example.com.rxroomdagger.ui.notes;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.com.rxroomdagger.db.NoteDao;
 import com.example.com.rxroomdagger.db.RoomNote;
 import com.example.com.rxroomdagger.ui.notes.model.Note;
-import com.example.com.rxroomdagger.utils.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;

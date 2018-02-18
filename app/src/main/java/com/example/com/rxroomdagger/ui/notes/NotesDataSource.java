@@ -8,7 +8,6 @@ import com.example.com.rxroomdagger.ui.notes.model.Note;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 
 public interface NotesDataSource {
     LiveData<List<RoomNote>> getNotes();

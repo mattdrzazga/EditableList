@@ -3,22 +3,16 @@ package com.example.com.rxroomdagger.ui.notes;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.com.rxroomdagger.R;
 import com.example.com.rxroomdagger.ui.notes.model.Note;
-import com.example.com.rxroomdagger.utils.ObjectUtils;
-import com.jakewharton.rxbinding2.InitialValueObservable;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,11 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import dagger.Binds;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 
 import static com.example.com.rxroomdagger.utils.ObjectUtils.requireNonNull;
 
